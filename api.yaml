@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+    description: Geolocation Service
+    version: '1.0'
+
+paths:
+    /geolocation/{ip}:
+        get:
+            description: Geolocation info by ip
+            parameters:
+              - in: path
+                name: ip
+                schema:
+                    type: string
+                required: true
+            responses:
+                200:
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GeolocationResponse'
+                400:
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                404:
+                    description: Not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+components:
+    schemas:
+        GeolocationResponse:
+            type: object
+            additionalProperties: false
+            required:
+              - ip
+              - country_code
+              - country
+              - city
+              - latitude
+              - longitude
+              - mystery_value
+            properties:
+                ip:
+                    type: string
+                country_code:
+                    type: string
+                country:
+                    type: string
+                city:
+                    type: string
+                latitude:
+                    type: number
+                longitude:
+                    type: number
+                mystery_value:
+                    type: string
+
+        ErrorResponse:
+            type: object
+            additionalProperties: false
+            required:
+              - code
+              - message
+            properties:
+                code:
+                    type: number
+                message:
+                    type: string
